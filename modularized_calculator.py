@@ -13,16 +13,21 @@ def readNumber(line, index):
   token = {'type': 'NUMBER', 'number': number}
   return token, index
 
-
 def readPlus(line, index):
   token = {'type': 'PLUS'}
   return token, index + 1
-
 
 def readMinus(line, index):
   token = {'type': 'MINUS'}
   return token, index + 1
 
+def readTimes(line, index):
+  token = {'type': 'TIMES'}
+  return token, index + 1
+
+def readDivision(line, index):
+  token = {'type': 'DIVISION'}
+  return token, index + 1
 
 def tokenize(line):
   tokens = []
@@ -34,6 +39,10 @@ def tokenize(line):
       (token, index) = readPlus(line, index)
     elif line[index] == '-':
       (token, index) = readMinus(line, index)
+    elif line[index] == '*':
+      (token, index) = readTimes(line, index)
+    elif line[index] == '/':
+      (token, index) = readDivision(line, index)
     else:
       print('Invalid character found: ' + line[index])
       exit(1)
@@ -47,6 +56,24 @@ def evaluate(tokens):
   index = 1
   while index < len(tokens):
     if tokens[index]['type'] == 'NUMBER':
+      if tokens[index - 1]['type'] == 'PLUS' or tokens[index - 1]['type'] == 'MINUS':
+        pass
+      elif tokens[index - 1]['type'] == 'TIMES':
+        tokens[index]['number'] *= tokens[index-2]['number']
+        tokens[index-2]['number'] = 0
+        tokens[index-1] = {'type':tokens[index-3]['type']}
+      elif tokens[index - 1]['type'] == 'DIVISION':
+        tokens[index]['number'] = tokens[index-2]['number']/tokens[index]['number']
+        tokens[index-2]['number'] = 0
+        tokens[index-1] = {'type':tokens[index-3]['type']}
+      else:
+        print('Invalid syntax')
+        exit(1)
+    index += 1
+  
+  index = 1
+  while index < len(tokens):
+    if tokens[index]['type'] == 'NUMBER':
       if tokens[index - 1]['type'] == 'PLUS':
         answer += tokens[index]['number']
       elif tokens[index - 1]['type'] == 'MINUS':
@@ -55,6 +82,7 @@ def evaluate(tokens):
         print('Invalid syntax')
         exit(1)
     index += 1
+  
   return answer
 
 
@@ -71,8 +99,20 @@ def test(line):
 # Add more tests to this function :)
 def runTest():
   print("==== Test started! ====")
+  test("2.0")
   test("1+2")
-  test("1.0+2.1-3")
+  test("1+2.0")
+  test("2*3.2")
+  test("2.1*3.0")
+  test("2.1*3.7")
+  test("4/2.0")
+  test("4.2/2")
+  test("2.1/3.7")
+  test("2.1/3.7*5.5")
+  test("2.1/3.7*5.5-10.0")
+  test("5-3.7*5.5")
+  test("5-3.7/5.5")
+  test("5+3.7*5.5/5+9.8/9.79-2.0*0.1")
   print("==== Test finished! ====\n")
 
 runTest()

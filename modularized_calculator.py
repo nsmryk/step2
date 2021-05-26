@@ -37,6 +37,7 @@ def readRightBracket(line, index, layer):
   token = {'type': 'RIGHTBRACKET', 'layer': layer - 1}
   return token, index + 1, layer - 1
 
+# read a character and add to tokens
 def tokenize(line):
   tokens = []
   index = 0
@@ -62,7 +63,7 @@ def tokenize(line):
     tokens.append(token)
   return tokens
 
-
+# performs the four arithmetic operations
 def evaluate(tokens):
   #print("formula is " ,tokens)
   answer = 0
@@ -99,33 +100,34 @@ def evaluate(tokens):
     index += 1
   return answer
 
+# extract what's in the parentheses and calculate it with evaluate()
 def hundleFormula(tokens):
-  numberOfBrackets = 0
+  number_of_brackets = 0
   for token in tokens:
     if token['type'] == 'LEFTBRACKET':
-      numberOfBrackets = max(numberOfBrackets,token['layer'])
-  while numberOfBrackets > 0:
+      number_of_brackets = max(number_of_brackets,token['layer'])
+  while number_of_brackets > 0:
     index = 0
-    #print("number of brackets is ", numberOfBrackets)
     while index < len(tokens):
-      if tokens[index]['type'] == 'LEFTBRACKET' and tokens[index]['layer'] == numberOfBrackets:
-        right = index+1
-        while right < len(tokens):
-          if tokens[right]['type'] == 'RIGHTBRACKET' and tokens[right]['layer'] == numberOfBrackets:
-            valueInBrackets = evaluate(tokens[index+1:right])
-            tokens[index] = {'type': 'NUMBER', 'number': valueInBrackets}
-            for i in range(1,right-index+1):
+      if tokens[index]['type'] == 'LEFTBRACKET' and tokens[index]['layer'] == number_of_brackets:
+        right_bracket_index = index+1
+        while right_bracket_index < len(tokens):
+          if tokens[right_bracket_index]['type'] == 'RIGHTBRACKET' and tokens[right_bracket_index]['layer'] == number_of_brackets:
+            value_in_brackets = evaluate(tokens[index+1:right_bracket_index])
+            tokens[index] = {'type': 'NUMBER', 'number': value_in_brackets}
+            for i in range(1,right_bracket_index-index+1):
               if i%2:
                 tokens[index+i] = {'type': 'TIMES'}
               else:
                 tokens[index+i] = {'type': 'NUMBER', 'number': 1}
-            index = right+1
+            index = right_bracket_index+1
             break
-          else : right += 1
+          else : right_bracket_index += 1
       else: index += 1
-    numberOfBrackets -= 1
+    number_of_brackets -= 1
   return evaluate(tokens)
 
+# check if the value calculated by hundleFormula() is right
 def test(line):
   tokens = tokenize(line)
   actualAnswer = hundleFormula(tokens)

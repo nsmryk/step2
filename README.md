@@ -2,7 +2,8 @@
 Programs for STEP development course :D
 
 ## assignment 2
-### 1
+### 1 
+matrix.cpp
 入力: N (int) 
 出力: duration average and duration variance (sec)
 

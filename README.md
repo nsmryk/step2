@@ -1,22 +1,7 @@
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**
-
-- [step2](#step2)
-  - [assignment 2](#assignment-2)
-    - [1](#1)
-    - [2](#2)
-    - [3](#3)
-  - [assignment3](#assignment3)
-    - [1](#1-1)
-    - [2](#2-1)
-    - [3](#3-1)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
 # step2
 Programs for STEP development course :D
-
+<!-- START doctoc -->
+<!-- END doctoc -->
 ## assignment 2
 ### 1 
 matrix.cpp
@@ -82,9 +67,9 @@ hundleFormula(tokens)で括弧の中身を抜き出してevaluate()に計算す�
 まず式内に最大何重の括弧()があるか数え、最も内側にあるカッコからその中身を計算し、出てきた値をtokensに入れ直す。次は一つ外側の括弧に移動してその中身を計算していく。
 これを繰り返す。
 
-具体的には、最後のテストケース　3*(4-1)+((5-1)*3+1)/3　を計算する時、まず括弧が二重までであることを調べる。
-次に二重の内側の括弧の中から計算する。この時点では 3*(4-1)+(4*1*1*3+1)/3となる。
-次に一重の括弧を計算する。　3*3*1*1+13*1*1*1*1*1/3　が得られ、最後にこれをevaluate()で計算して答えを求める。
+具体的には、最後のテストケース　3 * ( 4 - 1 ) + ( ( 5 - 1 ) * 3 + 1 ) / 3　を計算する時、まず括弧が二重までであることを調べる。
+次に二重の内側の括弧の中から計算する。この時点では 3 * ( 4 - 1 ) + ( 4 * 1 * 1 * 3 + 1 ) / 3となる。
+次に一重の括弧を計算する。　3 * 3 * 1 * 1 + 13 * 1 * 1 * 1 * 1 * 1 / 3　が得られ、最後にこれをevaluate()で計算して答えを求める。
 
 tokensのリストをindexでなめていっているので括弧内を計算した後に括弧内の演算子や数字の要素を消去できないため、代わりに*1や+0を入れて対応した。
-tokensから新しいリストを作っていってそれを使って新しい計算をする方法の方が分かりやすいのでそれに変更するかもしれない。
+tokensから新しいリストを作っていってそれを使って新しい計算をする方法かevaluate()を再帰関数にして書く方法もあるのでそちらも書くかもしれない。

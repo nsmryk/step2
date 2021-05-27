@@ -4,15 +4,14 @@ Programs for STEP development course :D
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**
 
-- [step2](#step2)
-  - [assignment 2](#assignment-2)
-    - [1](#1)
-    - [2](#2)
-    - [3](#3)
-  - [assignment3](#assignment3)
-    - [1](#1-1)
-    - [2](#2-1)
-    - [3](#3-1)
+- [assignment 2](#assignment-2)
+  - [1](#1)
+  - [2](#2)
+  - [3](#3)
+- [assignment3](#assignment3)
+  - [1](#1-1)
+  - [2](#2-1)
+  - [3](#3-1)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 ## assignment 2

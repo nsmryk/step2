@@ -4,14 +4,15 @@ Programs for STEP development course :D
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**
 
-- [assignment 2](#assignment-2)
-  - [1](#1)
-  - [2](#2)
-  - [3](#3)
-- [assignment3](#assignment3)
-  - [1](#1-1)
-  - [2](#2-1)
-  - [3](#3-1)
+- [step2](#step2)
+  - [assignment 2](#assignment-2)
+    - [1](#1)
+    - [2](#2)
+    - [3](#3)
+  - [assignment3](#assignment3)
+    - [1](#1-1)
+    - [2](#2-1)
+    - [3](#3-1)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 ## assignment 2
@@ -85,3 +86,7 @@ hundleFormula(tokens)で括弧の中身を抜き出してevaluate()に計算す�
 
 tokensのリストをindexでなめていっているので括弧内を計算した後に括弧内の演算子や数字の要素を消去できないため、代わりに*1や+0を入れて対応した。
 tokensから新しいリストを作っていってそれを使って新しい計算をする方法かevaluate()を再帰関数にして書く方法もあるのでそちらも書くかもしれない。
+→ modularized_calculation_saiki.pyに書きました。
+tokensから()や、乗除演算を計算した後の数式をnew_tokensに格納していって最終的にnew_tokenで和と差の計算を行い、答えを出力します。
+tokensから()の中身を計算する時にevaluate()を再起的に呼び出しています。"+" , "-" に関してはその直後の数字とともにnew_tokensの末尾に追加し、 "＊" , "/" に関しては
+new_tokensの末尾の数字に対して計算していくようにしています。

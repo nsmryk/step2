@@ -63,7 +63,7 @@ def tokenize(line):
     tokens.append(token)
   return tokens
 
-# performs the four arithmetic operations
+# performs the four arithmetic operations recursively
 def evaluate(tokens):
   answer = 0
   new_tokens = []
@@ -81,25 +81,25 @@ def evaluate(tokens):
       else:
         print('Invalid syntax1')
         exit(1)
-    if tokens[index]['type'] == 'LEFTBRACKET':
+    if tokens[index]['type'] == 'LEFTBRACKET': 
         right_bracket_index = index+1
         while right_bracket_index < len(tokens):
           if tokens[right_bracket_index]['type'] == 'RIGHTBRACKET' and tokens[right_bracket_index]['layer'] == tokens[index]['layer']:
-            value_in_brackets = evaluate(tokens[index+1:right_bracket_index])
+            value_in_brackets = evaluate(tokens[index+1:right_bracket_index]) # calculate inside brackets
             break
           else : right_bracket_index += 1
         if tokens[index - 1]['type'] == 'PLUS' or tokens[index - 1]['type'] == 'MINUS':
-            new_tokens.append(tokens[index-1])
-            new_tokens.append({'type': 'NUMBER', 'number': value_in_brackets})
+            new_tokens.append(tokens[index-1]) # add an operator to new_token
+            new_tokens.append({'type': 'NUMBER', 'number': value_in_brackets}) 
         elif tokens[index - 1]['type'] == 'TIMES':
-            new_tokens[-1]['number'] *= value_in_brackets
+            new_tokens[-1]['number'] *= value_in_brackets 
         elif tokens[index - 1]['type'] == 'DIVISION':
             new_tokens[-1]['number'] /= value_in_brackets
         else:
-            print('Invalid syntax1')
+            print('Invalid syntax')
             exit(1)
         
-        index = right_bracket_index
+        index = right_bracket_index 
     index += 1
   index = 1
   while index < len(new_tokens):
@@ -109,7 +109,7 @@ def evaluate(tokens):
       elif new_tokens[index - 1]['type'] == 'MINUS':
         answer -= new_tokens[index]['number']
       else:
-        print('Invalid syntax2')
+        print('Invalid syntax')
         exit(1)
     index += 1
   return answer

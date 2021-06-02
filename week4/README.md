@@ -107,29 +107,29 @@ g++ Wikipedia_calculate_page_rank.cpp && ./a.out
 page_id_to_iteratorに`MapPageIdToIterator`でページidをkeyとしてvalueがage_rankingの配列のイテレーターとなるようなpage_id_to_iterator
 を作る。<br>
 is_any_score_changedを収束判定に使い、これがtrueの間はスコアを更新し続ける。
-'CalculatePageRank'で次のページランクを求めてnext_scoreにいれる。現在のスコアと`CheckIfScoreChanges`で比較する。<br>
+`CalculatePageRank`で次のページランクを求めてnext_scoreにいれる。現在のスコアと`CheckIfScoreChanges`で比較する。<br>
 収束したらpage_rankingを更新してページランクが高い順にソートする。<br>
 最後に`OutputResult`で結果を出力する。
 
 ### プログラム内の関数の説明
-- `InitializePageRanking`
+- `InitializePageRanking`<br>
     引数:pages<br>
     返り値:page_ranking(vector<PageRanking>)<br>
     ページランクのスコアを初期化する。vectorの要素は構造体PageRankでページidとページランクを記録する。
--  `MapPageIdToIterator`
+-  `MapPageIdToIterator`<br>
     引数:page_ranking<br>
     返り値:page_id_to_iterator(std::map<std::string, int>)<br>
     ページidとそれに対応するpage_rankingの要素のイテレータを対応づけてpage_id_to_iteratorに保存する。
--  `CalculatePageRank`
+-  `CalculatePageRank`<br>
     引数:page_ranking, page_id_to_iterator,links<br>
     返り値:next_score(vector<double>)<br>
     次のスコアを求めてnext_scoreに入れて返す。それぞれのノードに対して分配するスコアを求め、next_scoreに足し合わせていく。
--  `CheckIfScoreChanges`
+-  `CheckIfScoreChanges`<br>
     引数:current_score,next_score<br>
     返り値:is_any_score_changed(boolean)<br>
     全てのノードに対してスコアの変更前後でsmall_numberより大きく変わっているか見る。
     どれか一つでも大きく変わっていたらtrueを返す。
--  `OutputResult`
+-  `OutputResult`<br>
     引数:page_ranking,pages<br>
     返り値:なし<br>
     プログラムの実行結果のような形式で結果を出力する。

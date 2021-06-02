@@ -83,7 +83,7 @@ std::vector<std::string> TranslateMapToVector(std::string start_point_id, std::s
 // Outputs the shortest path from start_point to end_point and its length 
 void OutputResult( std::string start_point_id, std::string end_point_id, std::map<std::string, std::string> pages, std::vector<std::string> shortest_path) {
   
-  std::cout<<"The shortest path is following below"<<std::endl;
+  std::cout<<"The shortest path is as follows"<<std::endl;
   
   for(int i = shortest_path.size()-1;i>=0;i--){
     std::cout<<shortest_path[i];

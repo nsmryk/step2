@@ -9,6 +9,7 @@
 #include <algorithm>
 double first_score = 100;
 double small_number = 0.01;
+
 struct PageRanking{
     std::string page_id="";
     double page_ranking = 0.0;
@@ -42,6 +43,7 @@ std::map<std::string, std::set<std::string>> ReadLinks(){
   }
   return links;
 }
+// Sets initial value of PageRank 
 std::vector<PageRanking> InitializePageRanking( std::map<std::string, std::string> pages ) {
     std::vector<PageRanking> page_ranking;
     auto pages_begin = pages.begin(),pages_end = pages.end(); 
@@ -53,6 +55,7 @@ std::vector<PageRanking> InitializePageRanking( std::map<std::string, std::strin
     }
     return page_ranking;
 }
+// Maps page id to iterator of page_ranking
 std::map<std::string, int> MapPageIdToIterator( std::vector<PageRanking> page_ranking ) {
     std::map<std::string, int> page_id_to_iterator;
     for(int iterator = 0;iterator < page_ranking.size(); iterator++ ){
@@ -60,6 +63,7 @@ std::map<std::string, int> MapPageIdToIterator( std::vector<PageRanking> page_ra
     }
     return page_id_to_iterator;
 }
+// Calculate score to give linked nodes and sum up the value for each node
 std::vector<double> CalculatePageRank(std::vector<PageRanking> page_ranking, std::map<std::string, int> page_id_to_iterator, std::map<std::string, std::set<std::string>> links) {   
     std::vector<double> next_score(page_ranking.size(),0);
     for( int iterator = 0;iterator < page_ranking.size(); iterator++){
@@ -70,6 +74,7 @@ std::vector<double> CalculatePageRank(std::vector<PageRanking> page_ranking, std
     }
     return next_score;
 }
+// Calculates absolute value of current_score - next_score and checks if the value is changed for each node
 bool CheckIfScoreChanges(std::vector<double> current_score, std::vector<double> next_score) {
     bool is_any_score_changed = false;
     for( int iterator = 0;iterator < current_score.size(); iterator++){

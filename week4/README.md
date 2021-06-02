@@ -16,8 +16,9 @@ step_wikipedia-graph
 ├── README.md
 └── Wikipedia_find_shortest_path.cpp
 ```
+## Googleから渋谷までの最短経路を見つける
 
-## 実行方法
+### 実行方法
 課題1のコードはWikipedia_find_shortest_path.cppでC++で書かれています。<br>
 実行環境 g++ version 10.2.0<br>
 step_wikipedia-graph内で下のコマンドを実行してください。
@@ -25,7 +26,7 @@ step_wikipedia-graph内で下のコマンドを実行してください。
 g++ Wikipedia_find_shortest_path.cpp && ./a.out
 ```
 
-## プログラムの実行結果
+### プログラムの実行結果
 実行結果は以下のようになります。
 最初にGoogleから渋谷までの最短経路を表示して、次にそのコストを表示します。
 
@@ -35,8 +36,7 @@ Google->セグウェイ->渋谷
 the distance between Google and 渋谷 is 2
 ```
 
-## プログラムの概要
-### Googleから渋谷までの最短経路を見つける
+### プログラムの概要
 `ReadPages`で pages.txt , `ReadLinks`で links.txt を読み込んでpages,linksに格納する。<br>
 次に`FindTargetNode`でGoogleと渋谷のページIDを探す。<br>
 `FindShortestPathByBFS `でキューを使ってBFSで最短経路を探す。`is_way_found`で最短経路が見つかったかを管理する。経路を保存するために`record_previous_node`を使って
@@ -44,7 +44,7 @@ the distance between Google and 渋谷 is 2
 経路が見つからなかったら`There is no way to 渋谷`を出力。
 見つかったならば`TranslateMapToVector`で経路を`vector`にして格納し、それを使って`OutputResult`で最短経路とその距離を出力する。
 
-## プログラム内の関数の説明
+### プログラム内の関数の説明
 - `ReadPages`<br>
     引数:なし<br>
     返り値:pages(map<string, string>)<br>

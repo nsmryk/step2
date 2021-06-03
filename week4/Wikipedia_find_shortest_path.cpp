@@ -9,6 +9,9 @@
 // Reads pages.txt 
 std::map<std::string, std::string> ReadPages(){
   std::ifstream file("data/pages.txt");
+  if( !file ){
+    std::cout<<"Error: There's no such file"<<std::endl;
+  }
   std::string data;
   std::map<std::string, std::string> pages;
   while (std::getline(file, data)) {
@@ -22,6 +25,9 @@ std::map<std::string, std::string> ReadPages(){
 // Reads links.txt 
 std::map<std::string, std::set<std::string>> ReadLinks(){
   std::ifstream file("data/links.txt");
+  if( !file ){
+    std::cout<<"Error: There's no such file"<<std::endl;
+  }
   std::string data;
   std::map<std::string, std::set<std::string>> links;
   while (std::getline(file, data)) {
@@ -72,10 +78,10 @@ std::map<std::string, std::string> FindShortestPathByBFS(std::string start_point
 // Follows the path from start_point_id to end_point_id and store it in array
 std::vector<std::string> TranslateMapToVector(std::string start_point_id, std::string end_point_id, std::map<std::string, std::string> pages, std::map<std::string, std::string> record_previous_node) {
   std::vector<std::string> shortest_path;
-  std::string curr_node = end_point_id;
-  while ( curr_node != start_point_id ) {
-    shortest_path.emplace_back(pages[curr_node]);
-    curr_node = record_previous_node[curr_node];
+  std::string current_id = end_point_id;
+  while ( current_id != start_point_id ) {
+    shortest_path.emplace_back(pages[current_id]);
+    current_id = record_previous_node[current_id];
   }
   shortest_path.emplace_back(pages[start_point_id]);
   return shortest_path;
@@ -97,7 +103,6 @@ void OutputResult( std::string start_point_id, std::string end_point_id, std::ma
 int main() {
   std::map<std::string, std::string> pages = ReadPages();
   std::map<std::string, std::set<std::string>> links = ReadLinks();
-  
   
   std::string start_point_id,end_point_id;
   start_point_id = FindTargetNode( "Google" , pages);

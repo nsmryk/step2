@@ -104,28 +104,28 @@ g++ Wikipedia_calculate_page_rank.cpp && ./a.out
 ### プログラムの概要
 課題1と同様に`ReadPages`で pages.txt , `ReadLinks`で links.txt を読み込んでpages,linksに格納する。<br>
 次にページidとページランキングをいれるためのpage_rankingを初期化する。ページランクの初期値はsmall_numberで設定する。<br>
-page_id_to_iteratorに`MapPageIdToIterator`でページidをkeyとしてvalueがage_rankingの配列のイテレーターとなるようなpage_id_to_iterator
+page_id_to_iteratorに`MapPageIdToIterator`でページidをkeyとしてvalueがpage_rankingの配列のイテレーターとなるようなpage_id_to_iterator
 を作る。<br>
 is_any_score_changedを収束判定に使い、これがtrueの間はスコアを更新し続ける。
-`CalculatePageRank`で次のページランクを求めてnext_scoreにいれる。現在のスコアと`CheckIfScoreChanges`で比較する。<br>
+`CalculatePageRank`で次のページランクを求めてnext_page_rankingにいれる。現在のスコアと`CheckIfScoreChanges`で比較する。<br>
 収束したらpage_rankingを更新してページランクが高い順にソートする。<br>
 最後に`OutputResult`で結果を出力する。
 
 ### プログラム内の関数の説明
 - `InitializePageRanking`<br>
-    引数:pages<br>
+    引数:pages,score<br>
     返り値:page_ranking(vector<PageRanking>)<br>
-    ページランクのスコアを初期化する。vectorの要素は構造体PageRankでページidとページランクを記録する。
+    ページランクのスコアをscoreに初期化する。vectorの要素は構造体PageRankでページidとページランクを記録する。
 -  `MapPageIdToIterator`<br>
     引数:page_ranking<br>
     返り値:page_id_to_iterator(std::map<std::string, int>)<br>
     ページidとそれに対応するpage_rankingの要素のイテレータを対応づけてpage_id_to_iteratorに保存する。
 -  `CalculatePageRank`<br>
-    引数:page_ranking, page_id_to_iterator,links<br>
+    引数:page_ranking, page_id_to_iterator,pages,links<br>
     返り値:next_score(vector<double>)<br>
-    次のスコアを求めてnext_scoreに入れて返す。それぞれのノードに対して分配するスコアを求め、next_scoreに足し合わせていく。
+    次のスコアを求めてnext_page_rankingに入れて返す。それぞれのノードに対して分配するスコアを求め、next_page_rankingに足し合わせていく。
 -  `CheckIfScoreChanges`<br>
-    引数:current_score,next_score<br>
+    引数:page_ranking , next_page_ranking<br>
     返り値:is_any_score_changed(boolean)<br>
     全てのノードに対してスコアの変更前後でsmall_numberより大きく変わっているか見る。
     どれか一つでも大きく変わっていたらtrueを返す。

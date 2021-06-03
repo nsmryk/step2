@@ -84,6 +84,7 @@ the distance between Google and 渋谷 is 2
 課題2のコードはWikipedia_calculate_page_rank.cppでC++で書かれています。<br>
 実行環境 g++ version 10.2.0<br>
 step_wikipedia-graph内で下のコマンドを実行してください。
+時間がかかり過ぎるときはsmall_numberの値を大きくすると収束判定が緩くなるので早く終わると思います。
 ```
 g++ Wikipedia_calculate_page_rank.cpp && ./a.out
 ```
@@ -103,7 +104,7 @@ g++ Wikipedia_calculate_page_rank.cpp && ./a.out
 ```
 ### プログラムの概要
 課題1と同様に`ReadPages`で pages.txt , `ReadLinks`で links.txt を読み込んでpages,linksに格納する。<br>
-次にページidとページランキングをいれるためのpage_rankingを初期化する。ページランクの初期値はsmall_numberで設定する。<br>
+次にページidとページランキングをいれるためのpage_rankingを初期化する。ページランクの初期値はfirst_scoreで設定する。<br>
 page_id_to_iteratorに`MapPageIdToIterator`でページidをkeyとしてvalueがpage_rankingの配列のイテレーターとなるようなpage_id_to_iterator
 を作る。<br>
 is_any_score_changedを収束判定に使い、これがtrueの間はスコアを更新し続ける。

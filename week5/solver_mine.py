@@ -48,15 +48,10 @@ def uncross_pathes(tour,city_a1_itrator, city_a2_itrator, city_b1_itrator, city_
     new_tour += tour[city_b2_itrator:]
     return new_tour
 
-def greedy(cities):
+def greedy(cities,dist,start):
     number_of_cities = len(cities)
-
-    dist = [[0] * number_of_cities for i in range(number_of_cities)]
-    for i in range(number_of_cities):
-        for j in range(i, number_of_cities):
-            dist[i][j] = dist[j][i] = distance(cities[i], cities[j])
-
-    current_city = 0
+    
+    current_city = start
     unvisited_cities = set(range(1, number_of_cities))
     tour = [current_city]
 
@@ -78,15 +73,28 @@ def solve(cities):
         city_x_grid = math.floor(cities[i][0]/(1600.0/x_grid))
         city_y_grid = math.floor(cities[i][1]/(900.0/y_grid))
         print(str(i) + "番目"+str(city_x_grid) + str(city_y_grid)+str(grid[city_x_grid][city_y_grid]))
-        new_list = grid[city_x_grid][city_y_grid]
-        new_list.append(i)
+    
+        grid[city_x_grid][city_y_grid]+=[i]
         print(grid[city_x_grid][city_y_grid])
-        grid[city_x_grid][city_y_grid] = new_list
     
     print(grid)
+
+    dist = [[0] * number_of_cities for i in range(number_of_cities)]
+    for i in range(number_of_cities):
+        for j in range(i, number_of_cities):
+            dist[i][j] = dist[j][i] = distance(cities[i], cities[j])
+
+    tour_grid = [[[]] * y_grid for i in range(x_grid)]
+    for x in range(x_grid):
+        for y in range(y_grid):
+            tour_mini = greedy(grid[x][y],dist,grid[x][y][0])
+            tour_grid[x][y] = tour_mini
+           
+    # dist[s][e] -> INF
+
+    #tour = greedy(set of start points and end points, dist(updated), start point )
+
     
-    
-    tour,dist = greedy(cities)
     return tour
     '''
     if (is_cross(city_a1, city_a2, city_b1, city_b2)):

@@ -7,8 +7,9 @@
 #include <sstream>
 #include <string>
 #include <algorithm>
-double first_score = 100;
-double small_number = 0.001;
+
+double first_score = 100.0;
+double small_number = 1.0;
 
 struct PageRanking{
     std::string page_id="";
@@ -101,18 +102,18 @@ int main() {
     std::vector<PageRanking> page_ranking = InitializePageRanking(pages,first_score);
     std::map<std::string, int>  page_id_to_iterator = MapPageIdToIterator(page_ranking);
     
-    
     bool is_any_score_changed = true;
-    while( is_any_score_changed ){
+    int cnt = 0;
+    while( is_any_score_changed && cnt<100){
+        std::cout<<cnt<<std::endl;
         std::vector<PageRanking> next_page_ranking = CalculatePageRank(page_ranking, page_id_to_iterator, pages, links);
         is_any_score_changed = CheckIfScoreChanges( page_ranking , next_page_ranking);
         page_ranking = next_page_ranking;
+        cnt++;
     }
     
     std::sort(page_ranking.begin(),page_ranking.end());
     std::reverse(page_ranking.begin(),page_ranking.end());
     OutputResult(page_ranking,pages);
-    
-
   return 0;
 }

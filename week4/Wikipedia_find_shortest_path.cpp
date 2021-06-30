@@ -8,7 +8,7 @@
 
 // Reads pages.txt 
 std::map<std::string, std::string> ReadPages(){
-  std::ifstream file("data/pages.txt");
+  std::ifstream file("data/pages_small.txt");
   if( !file ){
     std::cout<<"Error: There's no such file"<<std::endl;
   }
@@ -24,7 +24,7 @@ std::map<std::string, std::string> ReadPages(){
 }
 // Reads links.txt 
 std::map<std::string, std::set<std::string>> ReadLinks(){
-  std::ifstream file("data/links.txt");
+  std::ifstream file("data/links_small.txt");
   if( !file ){
     std::cout<<"Error: There's no such file"<<std::endl;
   }
@@ -71,7 +71,7 @@ std::map<std::string, std::string> FindShortestPathByBFS(std::string start_point
     }
   }
   if( !is_path_found ){
-    record_previous_node[start_point_id] = -1;
+    record_previous_node[start_point_id] = "";
   } 
   return record_previous_node;
 }
@@ -105,12 +105,22 @@ int main() {
   std::map<std::string, std::set<std::string>> links = ReadLinks();
   
   std::string start_point_id,end_point_id;
-  start_point_id = FindTargetNode( "Google" , pages);
-  end_point_id = FindTargetNode( "渋谷" , pages );
+  start_point_id = FindTargetNode( "環境" , pages);
+  end_point_id = FindTargetNode( "Google" , pages );
+  /*
+  for(const auto &page:pages){
+    if(links[page.first].empty()){
+      std::cout<<page.first<<page.second<<std::endl;
+      auto itr = links[page.first].begin();       // 最初の要素へのイテレータを取得
+      std::cout << *itr << " "; 
+    }
+  }*/
+  auto itr2 = links["1046"].begin();
+  std::cout<<"iter is"<<*itr2<<"this";
   
   std::map<std::string, std::string> record_previous_node = FindShortestPathByBFS(start_point_id, end_point_id, links);//id -> previous page's id  
 
-  if( record_previous_node[start_point_id] == "-1" ){
+  if( record_previous_node[start_point_id] == "" ){
     std::cout<< "There is no way to "<<pages[end_point_id]<<std::endl;
   }else {
     std::vector<std::string> shortest_path = TranslateMapToVector(start_point_id, end_point_id, pages, record_previous_node);

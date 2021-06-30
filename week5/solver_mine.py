@@ -90,6 +90,7 @@ Output tour(the order to visit)
 '''
 def solve(cities):
     distance_matrix = get_distance(cities)
+    print(distance_matrix)
     city_list = list(range(0, len(cities)))
     tour = greedy(distance_matrix,city_list)
     tour = improve_tour(cities,tour)
@@ -98,11 +99,15 @@ def solve(cities):
 if __name__ == '__main__':
     # assert len(sys.argv) > 1
     # there are 7 input files
+    cities = read_input('input_0.csv')
+    tour = solve(cities)
+    '''
     CHALLENGES = 7
     for i in range(CHALLENGES):
         cities = read_input(f'input_{i}.csv')
         tour = solve(cities)
         with open(f'output_{i}.csv', 'w') as f:
             f.write(format_tour(tour) + '\n')
+    '''
             
         

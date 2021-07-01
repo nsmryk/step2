@@ -5,6 +5,7 @@
 #include <vector>
 #include <algorithm>
 #include <math.h>
+#include "common.cpp"
 
 struct Edge{
     int start,end;
@@ -88,13 +89,37 @@ std::vector<int> MakeTour(int start,std::vector<int>& route,std::vector<bool>& s
     }
     return first_tour;
 }
-
-std::vector<int> MakeFirstTour(std::vector<Tree> smallest_tree){
-    std::vector<int> route,first_tour;
+/*
+double GetCost(std::vector<int> tour, std::vector<City> &cities){
+    double cost = 0;
+    for(int i = 1; i < tour.size();i++){
+        cost += Distance(cities[i],cities[i-1]);
+    }
+    cost += Distance(cities[0],cities[tour.size()-1]);
+    return cost;
+}
+*/
+std::vector<int> MakeFirstTour(std::vector<Tree> smallest_tree,std::vector<City>& cities){
+    std::vector<int> route;
     std::vector<bool> seen(smallest_tree.size());
     MakeRouteByDFS(0,smallest_tree,route,seen);
     seen.assign(smallest_tree.size(),false);
-    first_tour = MakeTour(0,route,seen);
+    std::vector<int> first_tour = MakeTour(0,route,seen);
+    //double min_cost = GetCost(tour,cities);
+    /*
+    for(int start_point = 1; start_point < smallest_tree.size(); start_point++){
+        seen.assign(smallest_tree.size(),false);
+        tour = MakeTour(start_point,route,seen);
+        std::cout<<GetCost(tour,cities)<<std::endl;
+        if(min_cost > GetCost(tour,cities)){
+            
+            copy(tour.begin(),tour.end(),best_first_tour.begin());
+        }
+    }
+    for(auto best:best_first_tour){
+        std::cout<<best<<" ";
+    }
+    */
     return first_tour;
 }
 

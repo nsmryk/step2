@@ -1,6 +1,7 @@
 # 課題7
 ## 行列積でループ順序を入れ替える
-###　実行方法
+
+### 実行方法
 
 ```
 g++ -std=c++17 matrix.cpp && ./a.out
@@ -42,7 +43,14 @@ pythonでは構文木に翻訳してプログラムを実行していくとこ�
 
 ## TSPChallenge 6,7
 
+### 実行方法
+solver_mine2.cppを含むディレクトリ内で以下のコマンドを実行するとoutput_{i}.csvにtour(求められた経路)が出力される。
+
+```
+g++ -std=c++17 solver_mine2.cpp && ./a.out
+```
 ### Kruskal,2-opt,Or-opt
+solver_mine2.cppで`solve()`を用いる時
 前回は初期回をgreedy法で作っていたが、今回はグラフの最小木を求めて、それをもとに初期解を作成した。
 得られた初期解をもとに距離を減らせるよう改善して解を求めた。
 #### step1 最小木から初期解を作る
@@ -57,10 +65,12 @@ Kruskal法で最小木を求めた後に木の枝をすべて二重にして一�
 ここでA-B, N-C-MをA-C-BとN-Mにつなぎかえてコスト削減できるか調べる。
 距離が減るのならCをA,Bの間に祖運輸してN,Mの間から削除する。
 この動作を反復する。これは1.5-Opt法と書かれていたが、(<https://mie-u.repo.nii.ac.jp/?action=repository_action_common_download&item_id=5071&item_no=1&attribute_id=17&file_no=1>)
-Or-Opt法で部分列を
+Or-Opt法で部分列を元の場所から他の場所に繋ぎかえる時の部分列の長さを1と限定した時の場合とみてOr-Optとしている。
+
 #### step4 2-opt法とOr-opt法がどちらも改善されなくなるまで繰り返す
 
 ### AntColonyAlgorithm
+solver_mine2.cppで`solve_use_ant()`を用いる時
 AntColonyAlgorithmで初期解を求めた後に2-optや1.5optを繰り返す
 #### step1 AntColonyAlgorithmを用いて初期解を作る
 遺伝的アルゴリズムやSAと同系統のアルゴリズム。

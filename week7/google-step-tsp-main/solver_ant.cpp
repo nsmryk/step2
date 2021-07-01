@@ -26,7 +26,6 @@ struct AntType{
 };
 
 //Ant algorithm problem parameters
-
 #define ALPHA 1.0
 #define BETA 5.0 //This parameter raises the weight of distance over pheromone
 #define RHO 0.5 //Evapouration rate
@@ -47,8 +46,8 @@ double phero[MAX_CITIES][MAX_CITIES];
 double best=(double)MAX_TOUR;
 int bestIndex;
 
-
-void init(vector<City> cities)
+// Sets ants and pheromon of each ants
+void Init(vector<City> cities)
 {
 	int from,to,ant;
     int number_of_cities = cities.size();
@@ -59,8 +58,6 @@ void init(vector<City> cities)
 		{
             phero[from][to] = INIT_PHER;
             phero[to][from] = INIT_PHER;
-            distance_matrix[from][to] = Distance(cities[from],cities[to]);
-            distance_matrix[to][from] = distance_matrix[from][to];
 		}
 	}
 	//initializing the ANTs
@@ -89,8 +86,8 @@ void init(vector<City> cities)
 	}
 }
 
-//reinitialize all ants and redistribute them
-void restartAnts(int number_of_cities){
+//Reinitializes all ants and redistributes them
+void RestartAnts(int number_of_cities){
 	int ant,i,to=0;
 	
 	for(ant = 0; ant<MAX_ANTS; ant++){
@@ -118,11 +115,13 @@ void restartAnts(int number_of_cities){
 	}
 }
 
-double antProduct(int from, int to){
+// Calculates probability
+double AntProduct(int from, int to){
 	return(( pow( phero[from][to], ALPHA) * pow( (1.0/ distance_matrix[from][to]), BETA)));
 }
 
-int selectNextCity( int ant ,int number_of_cities ){
+// Selects next city to visit according to probability
+int SelectNextCity( int ant ,int number_of_cities ){
 	int from, to;
 	double denom = 0.0;
 	
@@ -130,7 +129,7 @@ int selectNextCity( int ant ,int number_of_cities ){
 	
 	for(to=0;to<number_of_cities;to++){
 		if(ants[ant].tabu[to] == 0){
-			denom += antProduct( from, to );
+			denom += AntProduct( from, to );
 		}
 	}
 	
@@ -144,9 +143,8 @@ int selectNextCity( int ant ,int number_of_cities ){
 			to=0;
 		if(ants[ant].tabu[to] == 0)
 		{
-			p = antProduct(from,to)/denom;
+			p = AntProduct(from,to)/denom;
 			
-			//printf("\n%lf %lf", (double)rand()/RAND_MAX,p);
 			double x = ((double)rand()/RAND_MAX); 
 			if(x < p){
 				break;
@@ -157,7 +155,8 @@ int selectNextCity( int ant ,int number_of_cities ){
 	return to;
 }
 	
-int simulateAnts(int number_of_cities)
+// Moves ants according to probability
+int SimulateAnts(int number_of_cities)
 {
 	int k;
 	int moving = 0;
@@ -167,7 +166,7 @@ int simulateAnts(int number_of_cities)
 		
 		if( ants[k].pathIndex < number_of_cities )
 		{
-			ants[k].nextCity = selectNextCity(k,number_of_cities);
+			ants[k].nextCity = SelectNextCity(k,number_of_cities);
 			ants[k].tabu[ants[k].nextCity] = 1;
 			ants[k].path[ants[k].pathIndex++] = ants[k].nextCity;
 			
@@ -189,9 +188,8 @@ int simulateAnts(int number_of_cities)
 	return moving;
 }
 
-//Updating trails
-
-void updateTrails(int number_of_cities)
+//Updates trails
+void UpdateTrails(int number_of_cities)
 {
 	int from,to,i,ant;
 	
@@ -245,46 +243,25 @@ void updateTrails(int number_of_cities)
 	}
 	
 }
-/*
-void emitDataFile(int bestIndex)
-{
-	ofstream f1;
-	f1.open("Data.txt");
-	AntType antBest;
-	antBest = ants[bestIndex];
-	//f1<<antBest.curCity<<" "<<antBest.tourLength<<"\n";
-	int i;
-	for(i=0;i<number_of_cities;i++)
-	{
-		f1<<antBest.path[i]<<" ";
-	}
-	
-	f1.close();
-	
-	f1.open("city_data.txt");
-	for(i=0;i<number_of_cities;i++)
-	{
-		f1<<cities[i].x<<" "<<cities[i].y<<"\n";
-	}
-	f1.close();
-	
-}
-*/
-vector<int> solve_ant(vector<City> cities){
+
+// Solve TSP by ACO
+vector<int> SolveAnt(vector<City> cities){
+    std::cout<<"ACO is called"<<std::endl;
     int curTime = 0;
     int number_of_cities = cities.size();
     best=(double)MAX_TOUR;
  	srand(time(NULL));
 	vector<int>tour(number_of_cities);
-	init(cities);
+	Init(cities);
+    std::cout<<"init"<<std::endl;
 	while( curTime++ < MAX_TIME)
 	{
-		if( simulateAnts(number_of_cities) == 0)
+		if( SimulateAnts(number_of_cities) == 0)
 		{
-			updateTrails(number_of_cities);
+			UpdateTrails(number_of_cities);
 			
 			if(curTime != MAX_TIME)
-				restartAnts(number_of_cities);
+				RestartAnts(number_of_cities);
 				
 			cout<<"\n Time is "<<curTime<<"("<<best<<")";
 			
@@ -298,37 +275,3 @@ vector<int> solve_ant(vector<City> cities){
 	}
     return tour;
 }
-/*
-int main()
-{
-	int curTime = 0;
-    
-    cout<<"S-ACO:";
-	cout<<"MaxTime="<<MAX_TIME;
-	
-	srand(time(NULL));
-	
-	init(cities);
-	
-	while( curTime++ < MAX_TIME)
-	{
-		if( simulateAnts() == 0)
-		{
-			updateTrails();
-			
-			if(curTime != MAX_TIME)
-				restartAnts();
-				
-			cout<<"\n Time is "<<curTime<<"("<<best<<")";
-			
-		}
-	}
-	
-	cout<<"\nSACO: Best tour = "<<best<<endl<<endl<<endl;
-	
-	emitDataFile(bestIndex);
-	
-	return 0;
-}
-	
-    */

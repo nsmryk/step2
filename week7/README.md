@@ -67,6 +67,8 @@ Kruskal法で最小木を求めた後に木の枝をすべて二重にして一�
 この動作を反復する。これは1.5-Opt法と書かれていたが、(<https://mie-u.repo.nii.ac.jp/?action=repository_action_common_download&item_id=5071&item_no=1&attribute_id=17&file_no=1>)
 Or-Opt法で部分列を元の場所から他の場所に繋ぎかえる時の部分列の長さを1と限定した時の場合とみてOr-Optとしている。
 
+->improve_answer.pyでHinako Katafutiさんのコード<https://gist.github.com/chikochan/dfee1a8ab4e17184d3c93c7c6cdea07b>を使わせていただきました！（二個以上の部分列の移動をするOr-opt,two-optで解を改善する）
+
 #### step4 2-opt法とOr-opt法がどちらも改善されなくなるまで繰り返す
 
 ### AntColonyAlgorithm
@@ -82,6 +84,13 @@ AntColonyAlgorithmで初期解を求めた後に2-optや1.5optを繰り返す
 移動させる中で最短経路を記録しておき、一定の時間(パラメータとして変更可能)繰り返した後に最短経路をtourとして返している。
 また、局所解に陥らないようにフェロモンはある時間経ったら消えるものとする。
 
+参考：<https://qiita.com/ganyariya/items/25824f1502478a673005>
 #### step2 2-opt法、Or-opt法で改善
 上と同じ
 
+### 得られた解
+ACOで初期回を作る法が性能が良かった。
+ACOではChallenge6で40680.68、Challenge7で83310.99が得られた。
+乱数のシードを固定していなかったので再現性がないです、ごめんなさい。
+ACOで得られる解は乱数によって1000~2000ほど変化したりするため何度か反復していると上の結果よりいいものが得られそうです。
+また、パラメータを変えても結果が変わると思います。(フェロモンの消滅時間や影響の大きさなど)

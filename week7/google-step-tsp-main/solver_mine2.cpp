@@ -142,13 +142,12 @@ bool ImproveTour(std::vector<City> cities, std::vector<int>& tour){
 }
 void ChangeTour(std::vector<int> E,int subsequence_length, int number_of_cities ,std::vector<int>& tour, int a_index, int c_index){
     std::vector<int> updated_tour(number_of_cities+subsequence_length);
-    reverse(E.begin(),E.end());
     int index_update = 0;
     for(int index = 0; index<number_of_cities;index++){
-        //td::cout<<"index"<<index << " tour"<<tour[index]<<" ";
+        //td::cout<<"index"<<index << " tour"<<tour[idndex]<<" ";
         if(index-1 == c_index){
             for(int i = 0; i < subsequence_length; i++){
-                updated_tour[index_update] = E[i];
+                updated_tour[index_update] = E[subsequence_length -1 - i];
                 index_update++;
             }
             updated_tour[index_update] = tour[index];
@@ -174,7 +173,6 @@ void ChangeTour(std::vector<int> E,int subsequence_length, int number_of_cities 
 // Choose subsequence and changes its place
 void MoveSubsequence(std::vector<City> cities, std::vector<int>& tour,int subsequence_length,std::vector<std::vector<double>> distance_matrix){
     int number_of_cities = cities.size();
-    std::vector<int> updated_tour;
     while(true){
         int count = 0;
         for(int a_index = 0; a_index < number_of_cities-1;a_index++){
@@ -196,7 +194,7 @@ void MoveSubsequence(std::vector<City> cities, std::vector<int>& tour,int subseq
                     for(int e_index:e_indexes){
                         E.emplace_back(tour[e_index]);
                     }
-                    if(distance_matrix[A][E[0]]+distance_matrix[E.back()][B]+distance_matrix[C][D] > distance_matrix[A][B]+distance_matrix[C][E.back()]+distance_matrix[E[0]][D]){  
+                    if(distance_matrix[A][E[0]]+distance_matrix[E[E.size()-1]][B]+distance_matrix[C][D] > distance_matrix[A][B]+distance_matrix[C][E[E.size()-1]]+distance_matrix[E[0]][D]){  
                         ChangeTour(E,subsequence_length,number_of_cities,tour, a_index,c_index);
                         count += 1;
                     }
@@ -234,7 +232,10 @@ std::vector<int> SolveUsingACO(std::vector<City> cities){
     bool is_updated= true;
     double min_score = 1000000;
     //for(int loop = 0;loop<10;loop++){
-        std::vector<int> tour = SolveAnt(cities);
+        //std::vector<int> tour = SolveAnt(cities);
+        std::vector<Edge> edge_weight = GetDistanceVector(cities);
+        std::vector<Tree> smallest_tree = Kruskal(edge_weight,cities.size());
+        std::vector<int> tour = MakeFirstTour(smallest_tree,cities);
         std::cout<<"first solution is made"<<std::endl;
         std::vector<std::vector<double>> distance_matrix = GetDistanceMatrix(cities);
         std::cout<<"matrix is made"<<std::endl;
@@ -261,8 +262,8 @@ std::vector<int> SolveUsingACO(std::vector<City> cities){
 int main(){
     
     
-    int CHALLENGES = 4;
-    for(int i = 3; i < CHALLENGES;i++){
+    int CHALLENGES = 6;
+    for(int i = 5; i < CHALLENGES;i++){
         std::vector<City> cities = ReadInput("input_"+std::to_string(i)+".csv");
         std::vector<int> tour = SolveUsingACO(cities);
         std::ofstream ofs( "output_"+std::to_string(i)+".csv" );

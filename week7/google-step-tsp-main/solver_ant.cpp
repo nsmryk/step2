@@ -56,6 +56,8 @@ void Init(vector<City> cities)
 	{
 		for( to = from; to < number_of_cities; to++)
 		{
+            distance_matrix[from][to] = Distance(cities[from],cities[to]);
+            distance_matrix[to][from] = distance_matrix[from][to];
             phero[from][to] = INIT_PHER;
             phero[to][from] = INIT_PHER;
 		}
